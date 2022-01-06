@@ -31,7 +31,7 @@ jobs:
 ## Environment Variables
 
 | Name | Description | Required |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | `GITHUB_TOKEN` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `true` |
 | `SCAN_TARGET` | Target to create SBOM from with Syft | `true` |
 
