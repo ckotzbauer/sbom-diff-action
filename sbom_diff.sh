@@ -26,11 +26,12 @@ ancestor_sha="$(git merge-base $GITHUB_SHA origin/$GITHUB_BASE_REF)" # find the 
 syft ${INPUT_SCAN_TARGET} -o table >../new/sbom.txt
 git checkout --force $ancestor_sha
 syft ${INPUT_SCAN_TARGET} -o table >../old/sbom.txt
-diff=$($(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true) | tail +3)
+diff=$(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true)
+diff=$(echo $diff | tail +3)
 
 message="SBOM-Diff for target \`${INPUT_SCAN_TARGET}\`:"
 message="$message"$'\n'$'\n'
-if [ ! -z "$diff" ]; then
+if [ -z "$diff" ]; then
 message="$message"'```'$'\n'"No changes in detected."$'\n''```'
 else
 message="$message"'```diff'$'\n'"$diff"$'\n''```'
