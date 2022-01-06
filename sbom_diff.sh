@@ -26,18 +26,21 @@ ancestor_sha="$(git merge-base $GITHUB_SHA origin/$GITHUB_BASE_REF)" # find the 
 syft ${INPUT_SCAN_TARGET} -o table >../new/sbom.txt
 git checkout --force $ancestor_sha
 syft ${INPUT_SCAN_TARGET} -o table >../old/sbom.txt
-diff="$(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true)" # 'or true' because a non-identical diff outputs 1 as the exit status
+diff=$((diff -U 0 ../old/sbom.txt ../new/sbom.txt || true) | tail +3)
 
-
-comment="\`\`\`diff
-$diff
-\`\`\`"
+message="SBOM-Diff for target \`${INPUT_SCAN_TARGET}\`:"
+message="$message"$'\n'$'\n'
+if [ -z "$diff" ]; then
+message="$message"'```'$'\n'"No changes in detected."$'\n''```'
+else
+message="$message"'```diff'$'\n'"$diff"$'\n''```'
+fi
 
 curl --include --verbose --fail \
 -H "Accept: application/json" \
 -H "Content-Type:application/json" \
 -H "Authorization: token ${GITHUB_TOKEN}" \
---request POST --data "$(jq --null-input --arg escaped_diff "$comment" '{body: $escaped_diff}')" \
+--request POST --data "$(jq --null-input --arg escaped_diff "$message" '{body: $escaped_diff}')" \
 $api_url
 
 
