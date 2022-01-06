@@ -26,7 +26,7 @@ ancestor_sha="$(git merge-base $GITHUB_SHA origin/$GITHUB_BASE_REF)" # find the 
 syft ${INPUT_SCAN_TARGET} -o table >../new/sbom.txt
 git checkout --force $ancestor_sha
 syft ${INPUT_SCAN_TARGET} -o table >../old/sbom.txt
-diff="$(diff -u0 ../old/sbom.txt ../new/sbom.txt || true)" # 'or true' because a non-identical diff outputs 1 as the exit status
+diff="$(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true)" # 'or true' because a non-identical diff outputs 1 as the exit status
 
 
 comment="\`\`\`diff
