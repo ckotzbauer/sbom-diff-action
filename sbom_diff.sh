@@ -28,6 +28,7 @@ git checkout --force $ancestor_sha
 syft ${INPUT_SCAN_TARGET} -o table >../old/sbom.txt
 diff=$(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true)
 diff=$(echo $diff | tail +3)
+echo $diff
 
 message="SBOM-Diff for target \`${INPUT_SCAN_TARGET}\`:"
 message="$message"$'\n'$'\n'
