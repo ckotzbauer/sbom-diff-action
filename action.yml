@@ -1,0 +1,11 @@
+name: 'sbom-diff-action'
+description: 'Create SBOM diffs from PR changes.'
+author: 'Christian Kotzbauer'
+inputs:
+  scan-target:
+    required: true
+    description: 'Target files to analyze'
+    default: ""
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
