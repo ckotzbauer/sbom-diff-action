@@ -30,7 +30,7 @@ diff=$($(diff -U 0 ../old/sbom.txt ../new/sbom.txt || true) | tail +3)
 
 message="SBOM-Diff for target \`${INPUT_SCAN_TARGET}\`:"
 message="$message"$'\n'$'\n'
-if [ -z "$diff" ]; then
+if [ ! -z "$diff" ]; then
 message="$message"'```'$'\n'"No changes in detected."$'\n''```'
 else
 message="$message"'```diff'$'\n'"$diff"$'\n''```'
