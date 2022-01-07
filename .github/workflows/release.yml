@@ -1,0 +1,38 @@
+name: create-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.REPO_ACCESS }}
+
+      - name: Generate Changelog
+        uses: ckotzbauer/changelog-generator@50f243db7c8614b7aaac37bffd721de1a2e67ff4
+        with:
+          release-version: ${{ github.event.inputs.version }}
+          github-handle: ${{ github.repository }}
+          commit-output: commits.md
+
+      - name: Push release
+        uses: ckotzbauer/actions-toolkit/push-release@0.4.0
+        with:
+          version: ${{ github.event.inputs.version }}
+          branch: main
+          pat: ${{ secrets.REPO_ACCESS }}
+          prerelease: ${{ contains(inputs.version, 'alpha') || contains(inputs.version, 'beta') || contains(inputs.version, 'rc') }}
+
+      - name: Update v1 tag
+        run: |
+          git tag -fa v1 -m "Update v1 tag"
+          git push origin v1 --force
