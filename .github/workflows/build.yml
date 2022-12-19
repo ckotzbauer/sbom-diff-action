@@ -8,23 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: false
-          load: true
-          platforms: linux/amd64
-          tags: |
-            ckotzbauer/sbom-diff-action:latest
+    uses: ckotzbauer/actions-toolkit/.github/workflows/toolkit-build-test.yml@0.29.0
+    with:
+      build-image: true
+      docker-tag: ckotzbauer/sbom-diff-action:latest
