@@ -1,4 +1,4 @@
-FROM anchore/syft:v0.94.0@sha256:fc6fc91abc1d974f2e73041f375c1737d9fbb829594684ac4d72fc04dbd012ed as syft
+FROM anchore/syft:v0.96.0@sha256:64dcff82a5bc1a0363d16c5cc45f01dcfa63e7ac25b9ebac2caef32e18827a06 as syft
 FROM alpine:3.18
 
 COPY --from=syft /syft /usr/local/bin
