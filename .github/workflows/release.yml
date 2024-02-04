@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.REPO_ACCESS }}
 
       - name: Generate Changelog
-        uses: ckotzbauer/changelog-generator@1798f30678a446c9fd817615b4852e78510362fe
+        uses: ckotzbauer/changelog-generator@837b19033f71acbf2fb43fed26eed0f653445d9b
         with:
           release-version: ${{ github.event.inputs.version }}
           github-handle: ${{ github.repository }}
